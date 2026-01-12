@@ -37,3 +37,11 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+  deploy:
+    stage: deploy
+    image: ubuntu:22.04
+    script:
+      - echo "Starting deployment..."
+      - echo "Replace this with real deployment commands"
+    only:
+      - main
