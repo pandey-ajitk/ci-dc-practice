@@ -18,3 +18,7 @@ jobs:
 
       - name: Run tests inside Docker
         run: docker run python-app:test
+      
+      - name: Deploy (Demo)
+        if: github.ref == 'refs/heads/main'
+        run: echo "Image is ready for deployment"
