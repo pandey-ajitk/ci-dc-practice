@@ -19,6 +19,14 @@ jobs:
       - name: Run tests inside Docker
         run: docker run python-app:test
       
-      - name: Deploy (Demo)
-        if: github.ref == 'refs/heads/main'
-        run: echo "Image is ready for deployment"
+  docker-push:
+      needs: docker-ci
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/main'
+      steps:
+        - uses: actions/checkout@v4
+        - run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        - run: |
+            IMAGE=ghcr.io/${{ github.repository_owner }}/python-app:latest
+            docker build -t $IMAGE .
+            docker push $IMAGE
